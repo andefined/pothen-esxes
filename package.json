@@ -20,7 +20,7 @@
     "pdf-table-extractor": "^1.0.3",
     "request": "^2.88.0",
     "signale": "^1.4.0"
-    },
+  },
   "bin": {
     "pothen-esxes": "./index.js"
   }

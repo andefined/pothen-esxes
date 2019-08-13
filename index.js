@@ -79,7 +79,7 @@ let CURRENCIES = [
 const createDir = (p) => {
     signale.info(`Create folder ${p}`);
     if (!fs.existsSync(p)){
-        fs.mkdir(p, { reCURRENCIESive: true }, (err) => {
+        fs.mkdir(p, { recursive: true }, (err) => {
             if (err) {
                 signale.error(err)
                 process.exit(0);

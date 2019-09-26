@@ -56,13 +56,17 @@ let CURRENCIES = [
     { name: 'ΡΟΥΒΛΙ ΡΩΣΙΑΣ', mult: 0.014 },
     { name: 'ΔΟΛΑΡΙΟ ΚΑΝΑΔΑ', mult: 0.66 },
     { name: 'ΔΟΛΑΡΙΟ \nΚΑΝΑΔΑ', mult: 0.66 },
+    { name: 'ΒΡΕΤΑΝΙΚΗ', mult: 1.15 },
+    { name: 'ΛΙΡΑ', mult: 1.15 },
     { name: 'ΒΡΕΤΑΝΙΚΗ ΛΙΡΑ', mult: 1.15 },
     { name: 'ΒΡΕΤΑΝΙΚΗ \nΛΙΡΑ', mult: 1.15 },
     { name: 'ΕΛΒΕΤΙΚΟ \nΦΡΑΓΚΟ', mult: 0.88 },
     { name: 'ΕΛΒΕΤΙΚΟ ΦΡΑΓΚΟ', mult: 0.88 },
     { name: 'ΔΟΛΑΡΙΟ \nΑΥΣΤΡΑΛΙΑΣ', mult: 0.63 },
+    { name: 'ΔΟΛΑΡΙΟ \nΑΥΣΤΡΑΛΙΑ', mult: 0.63 },
     { name: 'ΔΟΛΑΡΙΟ ΑΥΣΤΡΑΛΙΑΣ', mult: 0.63 },
     { name: 'ΔΟΛΑΡΙΟ \nΑΥΣΤΡΑΛΙΑ\nΣ', mult: 0.63 },
+    { name: 'ΑΥΣΤΡΑΛΙΑ\nΣ', mult: 0.63 },
     { name: 'ΚΟΡΟΝΑ\nΝΟΡΒΗΓΙΑΣ\n(KRONE)', mult: 0.10 },
     { name: 'ΚΟΡΟΝΑ \nΝΟΡΒΗΓΙΑΣ \n(KRONE)', mult: 0.10 },
     { name: 'ΚΟΡΟΝΑ \nΝΟΡΒΗΓΙΑΣ', mult: 0.10 },
@@ -79,7 +83,7 @@ let CURRENCIES = [
 const createDir = (p) => {
     signale.info(`Create folder ${p}`);
     if (!fs.existsSync(p)){
-        fs.mkdir(p, { reCURRENCIESive: true }, (err) => {
+        fs.mkdir(p, { recursive: true }, (err) => {
             if (err) {
                 signale.error(err)
                 process.exit(0);
@@ -307,6 +311,7 @@ const extract = (cmd) => {
                 if (idx < 0) continue;
                 for (var j = 1; j < data.pageTables[i].tables.length; j++) {
                     let cur = _.findIndex(CURRENCIES, { name: data.pageTables[i].tables[j][idx + 1].trim() });
+                    cur = cur < 0 ? 0: cur;
                     if (A === 0) {
                         income += accounting.unformat(data.pageTables[i].tables[j][idx].trim(), ',') * CURRENCIES[cur].mult;
                     } else {
@@ -327,6 +332,7 @@ const extract = (cmd) => {
             _.each(lastPage, (m, j) => {
                 if (j > 0) {
                     let curp = _.findIndex(CURRENCIES, { name: m[4].trim() });
+                    curp = curp < 0 ? 0: curp;
                     total += accounting.unformat(m[3].trim(), ',') * CURRENCIES[curp].mult;
                     due += accounting.unformat(m[5].trim(), ',') * CURRENCIES[curp].mult;
                     if (m[6] !== '') {
@@ -359,6 +365,7 @@ const extract = (cmd) => {
 
                 for (var r = 1; r < data.pageTables[e].tables.length; r++) {
                     let curr = _.findIndex(CURRENCIES, { name: data.pageTables[e].tables[r][idxe + 2].trim() });
+                    curr = curr < 0 ? 0: curr;
                     if (curr === -1) signale.info('"' + data.pageTables[e].tables[r][idxe + 2].trim() + '"');
                     mtxCost += accounting.unformat(data.pageTables[e].tables[r][idxe].trim(), ',') * CURRENCIES[curr].mult;
                     mtxCount += accounting.unformat(data.pageTables[e].tables[r][idxe - 3].trim(), ',') * CURRENCIES[curr].mult;

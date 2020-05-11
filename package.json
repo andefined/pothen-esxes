@@ -13,11 +13,11 @@
     "accounting": "^0.4.1",
     "cheerio": "^1.0.0-rc.3",
     "commander": "^2.20.0",
-    "csv-parser": "^2.2.0",
     "csv-writer": "^1.2.0",
     "line-by-line": "^0.1.6",
     "lodash": "^4.17.15",
     "pdf-table-extractor": "^1.0.3",
+    "pdfjs-dist": "^2.3.200",
     "request": "^2.88.0",
     "signale": "^1.4.0"
   },

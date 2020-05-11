@@ -785,7 +785,7 @@ const extract = (cmd) => {
                     properties: PRP,
                     propertiesArea: accounting.formatNumber(TM, 2),
                     sharesAmount: accounting.formatMoney(mtxCost, { symbol: '€',  format: '%v %s' }, 2),
-                    sharesCount: accounting.formatMoney(mtxCount, { symbol: '€',  format: '%v %s' }, 2),
+                    sharesCount: accounting.formatNumber(mtxCount, 2),
 
                     link: columns[2]
 

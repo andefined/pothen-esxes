@@ -30,11 +30,11 @@ Commands:
 # Fetch Pothe Esxes Data
 pothen-esxes fetch -y 2016 -f pothenesxes \
     -c $(<cookie.txt) \
-    https://www.hellenicparliament.gr//Organosi-kai-Leitourgia/epitropi-elegxou-ton-oikonomikon-ton-komaton-kai-ton-vouleftwn/Diloseis-Periousiakis-Katastasis2016
+    https://www.hellenicparliament.gr/Organosi-kai-Leitourgia/epitropi-elegxou-ton-oikonomikon-ton-komaton-kai-ton-vouleftwn/Diloseis-Periousiakis-Katastasis2016
 
 # Download PDF Files to folder pothenesxes
 pothen-esxes download -y 2016 -f pothenesxes -c $(<cookie.txt)
 
 # Extract fields and create CSV files
-pothen-esxes extract -y 2016 -f pothenesxes -c $(<cookie.txt)
+pothen-esxes extract -y 2016 -f pothenesxes
 ```

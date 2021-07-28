@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const program = require('commander');
-const request = require('request');
+const request = require('node-fetch');
 const cheerio = require('cheerio');
 const _ = require('lodash');
 const fs = require('fs');
@@ -57,19 +57,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.51
+                mult: 0.5129
             },
             {
                 year: 2016,
-                mult: 0.51
+                mult: 0.5107
             },
             {
                 year: 2017,
-                mult: 0.51
+                mult: 0.5118
             },
             {
                 year: 2018,
-                mult: 0.51
+                mult: 0.5109
+            },
+            {
+                year: 2019,
+                mult: 0.5134
             }
         ]
     },
@@ -79,19 +83,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.92
+                mult: 0.8271
             },
             {
                 year: 2016,
-                mult: 0.95
+                mult: 0.9193
             },
             {
                 year: 2017,
-                mult: 0.83
+                mult: 0.9504
             },
             {
                 year: 2018,
-                mult: 0.87
+                mult: 0.8325
+            },
+            {
+                year: 2019,
+                mult: 0.8724
             }
         ]
     },
@@ -101,18 +109,22 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.0127
+                mult: 0.014
             },
             {
                 year: 2016,
-                mult: 0.0154
+                mult: 0.0126
             },
             {
                 year: 2017,
-                mult: 0.0145
+                mult: 0.0155
             },
             {
                 year: 2018,
+                mult: 0.0144
+            },
+            {
+                year: 2019,
                 mult: 0.0126
             }
         ]
@@ -123,19 +135,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.6649
+                mult: 0.712
             },
             {
                 year: 2016,
-                mult: 0.7083
+                mult: 0.6641
             },
             {
                 year: 2017,
-                mult: 0.6621
+                mult: 0.7071
             },
             {
                 year: 2018,
-                mult: 0.6391
+                mult: 0.6631
+            },
+            {
+                year: 2019,
+                mult: 0.6402
             }
         ]
     },
@@ -145,19 +161,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 1.3571
+                mult: 1.2888
             },
             {
                 year: 2016,
-                mult: 1.1732
+                mult: 1.356
             },
             {
                 year: 2017,
-                mult: 1.1256
+                mult: 1.1733
             },
             {
                 year: 2018,
-                mult: 1.1092
+                mult: 1.125
+            },
+            {
+                year: 2019,
+                mult: 1.1125
             }
         ]
     },
@@ -167,19 +187,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.6706
+                mult: 0.6765
             },
             {
                 year: 2016,
-                mult: 0.6857
+                mult: 0.6701
             },
             {
                 year: 2017,
-                mult: 0.6498
+                mult: 0.6843
             },
             {
                 year: 2018,
-                mult: 0.6126
+                mult: 0.6491
+            },
+            {
+                year: 2019,
+                mult: 0.6148
             }
         ]
     },
@@ -189,19 +213,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.9187
+                mult: 0.8318
             },
             {
                 year: 2016,
-                mult: 0.9339
+                mult: 0.9205
             },
             {
                 year: 2017,
-                mult: 0.8553
+                mult: 0.933
             },
             {
                 year: 2018,
-                mult: 0.8844
+                mult: 0.8543
+            },
+            {
+                year: 2019,
+                mult: 0.8883
             }
         ]
     },
@@ -211,19 +239,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.10918
+                mult: 0.1057
             },
             {
                 year: 2016,
-                mult: 0.1047
+                mult: 0.1089
             },
             {
                 year: 2017,
-                mult: 0.1019
+                mult: 0.1044
             },
             {
                 year: 2018,
-                mult: 0.0973
+                mult: 0.1018
+            },
+            {
+                year: 2019,
+                mult: 0.0983
             }
         ]
     },
@@ -233,19 +265,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.2215
+                mult: 0.2234
             },
             {
                 year: 2016,
-                mult: 0.2215
+                mult: 0.2208
             },
             {
                 year: 2017,
-                mult: 0.2144
+                mult: 0.2204
             },
             {
                 year: 2018,
-                mult: 0.2141
+                mult: 0.2142
+            },
+            {
+                year: 2019,
+                mult: 0.215
             }
         ]
     },
@@ -268,6 +304,10 @@ let CURRENCIES = [
             {
                 year: 2018,
                 mult: 0.00848
+            },
+            {
+                year: 2019,
+                mult: 0.0084
             }
         ]
     },
@@ -277,19 +317,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.0077
+                mult: 0.0069
             },
             {
                 year: 2016,
-                mult: 0.0081
+                mult: 0.0076
             },
             {
                 year: 2017,
-                mult: 0.0074
+                mult: 0.0081
             },
             {
                 year: 2018,
-                mult: 0.0079
+                mult: 0.0074
+            },
+            {
+                year: 2019,
+                mult: 0.008
             }
         ]
     },
@@ -299,19 +343,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.10394
+                mult: 0.1108
             },
             {
                 year: 2016,
-                mult: 0.11004
+                mult: 0.1039
             },
             {
                 year: 2017,
-                mult: 0.1016
+                mult: 0.1102
             },
             {
                 year: 2018,
-                mult: 0.1005
+                mult: 0.1016
+            },
+            {
+                year: 2019,
+                mult: 0.1009
             }
         ]
     },
@@ -321,18 +369,22 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.0595
+                mult: 0.0715
             },
             {
                 year: 2016,
-                mult: 0.0693
+                mult: 0.0594
             },
             {
                 year: 2017,
-                mult: 0.0677
+                mult: 0.0692
             },
             {
                 year: 2018,
+                mult: 0.0671
+            },
+            {
+                year: 2019,
                 mult: 0.0606
             }
         ]
@@ -356,6 +408,10 @@ let CURRENCIES = [
             {
                 year: 2018,
                 mult: 0.40
+            },
+            {
+                year: 2019,
+                mult: 0.40
             }
         ]
     },
@@ -365,19 +421,23 @@ let CURRENCIES = [
         close: [
             {
                 year: 2015,
-                mult: 0.3153
+                mult: 0.3545
             },
             {
                 year: 2016,
-                mult: 0.2704
+                mult: 0.3151
             },
             {
                 year: 2017,
-                mult: 0.2215
+                mult: 0.2696
             },
             {
                 year: 2018,
-                mult: 0.1647
+                mult: 0.2195
+            },
+            {
+                year: 2019,
+                mult: 0.1649
             }
         ]
     }
@@ -398,14 +458,12 @@ const createDir = (p) => {
     }
 };
 
-const downloadFile = (url, dest, cookie, cb) => {
-    if (fs.existsSync(dest)) return cb();
-    if (!url) return cb(new Error('URL doesn\'t exists'));
+const downloadFile = async (url, dest, cookie, proxy, resolve, reject) => {
+    if (fs.existsSync(dest)) return reject(new Error('File already exist'));
+    if (!url) return reject(new Error('URL doesn\'t exists'));
 
-    const file = fs.createWriteStream(dest);
-
-    const sendReq = request({
-        url: url,
+    request(url, {
+        method: 'get',
         headers: {
             'Cookie': cookie,
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',
@@ -414,29 +472,20 @@ const downloadFile = (url, dest, cookie, cb) => {
             'Accept-Encoding': 'none',
             'Accept-Language': 'en-US,en;q=0.8',
             'Connection': 'keep-alive'
-        }
-    });
-
-    // verify response code
-    sendReq.on('response', (response) => {
-        if (response.statusCode !== 200) {
-            return cb(response);
-        }
-        // response.setHeader("Content-Type", "text/pdf");
-        sendReq.pipe(file);
-    });
-
-    // close() is async, call cb after close completes
-    file.on('finish', () => file.close(cb));
-
-    // check for request errors
-    sendReq.on('error', (err) => {
-        return cb(err);
-    });
-
-    file.on('error', (err) => { // Handle errors
-        return cb(err);
-    });
+        },
+        proxy: proxy !== '' ? proxy : null
+    })
+    .then((res) => {
+        const file = fs.createWriteStream(dest);
+        res.body.pipe(file);
+        res.body.on('error', (err) => reject(err));
+        file.on('error', (err) => reject(err));
+        file.on('finish', () => {
+            file.close();
+            resolve();
+        });
+    })
+    .catch((err) => reject(err));
 };
 
 const fetch = (baselink, cmd) => {
@@ -449,8 +498,8 @@ const fetch = (baselink, cmd) => {
     // Fetch baselink
     signale.debug(`Fetch baselink`);
 
-    request({
-            url: baselink,
+    request(baselink, {
+            method: 'get',
             headers: {
                 'Cookie': cmd.cookie,
                 'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0',
@@ -459,57 +508,60 @@ const fetch = (baselink, cmd) => {
                 'Accept-Encoding': 'none',
                 'Accept-Language': 'en-US,en;q=0.8',
                 'Connection': 'keep-alive'
-            }
-        }, (err, res, body) => {
-        if (err) {
-            signale.error(err)
+            },
+            proxy: cmd.proxy !== '' ? `https://${cmd.proxy}` : null
+        })
+        .then(res => {
+            return res.text();
+        })
+        .then(body => {
+            const csvWriter = createCsvWriter({
+                path: path.join(folder, '_all.csv'),
+                header: [
+                    { id: 'surname', title: 'surname' },
+                    { id: 'name', title: 'name' },
+                    { id: 'link', title: 'link' },
+                    { id: 'folder', title: 'folder' },
+                    { id: 'pdf', title: 'pdf' },
+                    { id: 'csv', title: 'csv' }
+                ]
+            });
+    
+            // Load HTML body into cheerio
+            let $ = cheerio.load(body);
+            
+            // Extract Fields with Cheerio
+            // Scrape Name, Lastname, File
+            let members = []
+            $(`table tbody tr`).each((i, val) => {
+                let td = $(val).children('td');
+                members.push({
+                    surname: $(td).eq(0).text(),
+                    name: $(td).eq(1).text(),
+                    link: $(td).eq(2).find('a').attr('href'),
+                    folder: folder,
+                    pdf: $(td).eq(2).find('a').attr('href').replace(/^.*[\\\/]/, ''),
+                    csv: $(td).eq(2).find('a').attr('href').replace(/^.*[\\\/]/, '').replace('.pdf', '.csv')
+                });
+            });
+
+            // Write Table to CSV
+            csvWriter
+                .writeRecords(members)
+                .then((d) => {
+                    signale.info(`CSV was written successfully under ${path.join(folder, '_all.csv')}, ${d}`);
+                    signale.info('All data fetched');
+                    process.exit(0);
+                })
+                .catch((err) => {
+                    signale.error(`Error while writing CSV ${err.message}`);
+                    process.exit(0);
+                });
+        })
+        .catch(err => {
+            signale.error(err);
             process.exit(0);
-        }
-
-        const csvWriter = createCsvWriter({
-            path: path.join(folder, '_all.csv'),
-            header: [
-                { id: 'surname', title: 'surname' },
-                { id: 'name', title: 'name' },
-                { id: 'link', title: 'link' },
-                { id: 'folder', title: 'folder' },
-                { id: 'pdf', title: 'pdf' },
-                { id: 'csv', title: 'csv' }
-            ]
         });
-
-        let members = [];
-
-        // Load HTML body into cheerio
-        let $ = cheerio.load(body);
-
-        // Extract Fields with Cheerio
-        // Scrape Name, Lastname, File
-        $(`table tbody tr`).each((i, val) => {
-            let td = $(val).children('td');
-            members.push({
-                surname: $(td).eq(0).text(),
-                name: $(td).eq(1).text(),
-                link: $(td).eq(2).find('a').attr('href'),
-                folder: folder,
-                pdf: $(td).eq(2).find('a').attr('href').replace(/^.*[\\\/]/, ''),
-                csv: $(td).eq(2).find('a').attr('href').replace(/^.*[\\\/]/, '').replace('.pdf', '.csv')
-            });
-        });
-        // Write Table to CSV
-        csvWriter
-            .writeRecords(members)
-            .then(() => {
-                signale.info(`CSV was written successfully under ${path.join(folder, '_all.csv')}`);
-                signale.info('All data fetched');
-                process.exit(0);
-            })
-            .catch((err) => {
-                signale.error(`Error while writing CSV ${err.message}`);
-                process.exit(0);
-            });
-    });
-
 };
 
 const download = (cmd) => {
@@ -535,12 +587,15 @@ const download = (cmd) => {
             columns[2],
             path.join(columns[3], 'pdf', columns[4]),
             cmd.cookie,
-            (err) => {
-                if (err) {
-                    signale.error(`Error while downloading file ${columns[0]} ${columns[1]} ${err.message}`)
-                }
+            cmd.proxy,
+            (res) => {
                 L++;
                 lr.resume();
+            },
+            (err) => {
+                L++;
+                lr.resume();
+                signale.error(`Error while downloading file ${columns[0]} ${columns[1]} - ${err.message}`);
             }
         );
     });
@@ -579,25 +634,26 @@ const extract = (cmd) => {
             { id: 'surname', title: 'ΕΠΩΝΥΜΟ' },
             { id: 'name', title: 'ΟΝΟΜΑ' },
             { id: 'fathersname', title: 'ΟΝΟΜΑ ΠΑΤΡΟΣ' },
-
-            { id: 'spouse_name', title: 'ΕΠΩΝΥΜΟ (Συζύγου)' },
-            { id: 'spouse_surname', title: 'ΟΝΟΜΑ (Συζύγου)' },
+            { id: 'spouse_name', title: 'ΟΝΟΜΑ (Συζύγου)' },
+            { id: 'spouse_surname', title: 'ΕΠΩΝΥΜΟ (Συζύγου)' },
             { id: 'spouse_fathersname', title: 'ΟΝΟΜΑ ΠΑΤΡΟΣ (Συζύγου)' },
 
-            { id: 'loansSum', title: 'ΔΑΝΕΙΑ ΑΡΧΙΚΟ ΠΟΣΟ (Σύνολο)' },
-            { id: 'loansDue', title: 'ΔΑΝΕΙΑ ΥΠΟΛΟΙΠΟ ΟΦΕΙΛΟΜΕΝΟ (Σύνολο)' },
-            
+            // { id: 'property', title: 'ΙΔΙΟΤΗΤΑ' },
+            // { id: 'propertyFrom', title: 'ΗΜ/ΝΙΑ ΑΠΟΚΤΗΣΗΣ' },
+            // { id: 'propertyTo', title: 'ΗΜ/ΝΙΑ ΑΠΩΛΕΙΑΣ' },
+
             { id: 'income', title: 'ΕΣΟΔΑ (Σύνολο)' },
             { id: 'deposits', title: 'ΚΑΤΑΘΕΣΕΙΣ (Σύνολο)' },
             { id: 'accounts', title: 'ΑΡΙΘΜΟΣ ΤΡΑΠΕΖΙΚΩΝ ΛΟΓΑΡΙΑΣΜΩΝ (Σύνολο)' },
+            { id: 'loansSum', title: 'ΔΑΝΕΙΑ ΑΡΧΙΚΟ ΠΟΣΟ (Σύνολο)' },
+            { id: 'loansDue', title: 'ΔΑΝΕΙΑ ΥΠΟΛΟΙΠΟ ΟΦΕΙΛΟΜΕΝΟ (Σύνολο)' },
             { id: 'properties', title: 'ΑΚΙΝΗΤΑ (Σύνολο)' },
             { id: 'propertiesArea', title: 'ΕΠΙΦΑΝΕΙΑ ΣΕ Μ2 (Σύνολο)' },
             { id: 'sharesAmount', title: 'ΜΕΤΟΧΕΣ ΑΠΟΤΙΜΗΣΗ (Σύνολο)' },
             { id: 'sharesCount', title: 'ΜΕΤΟΧΕΣ ΠΟΣΟΤΗΤΑ (Σύνολο)' },
-
+            // { id: 'loansCreated', title: 'ΗΜ/ΝΙΑ ΔΗΜΙΟΥΡΓΙΑΣ ΥΠΟΧΡΕΩΣΗΣ (Δάνεια)' },
+            // { id: 'loansEnding', title: 'ΗΜ/ΝΙΑ ΛΗΞΗΣ ΥΠΟΧΡΕΩΣΗΣ (Δάνεια)' },
             { id: 'link', title: 'PDF Link' }
-            // { id: 'loansCreated', title: 'ΗΜ/ΝΙΑ ΔΗΜΙΟΥΡΓΙΑΣ ΥΠΟΧΡΕΩΣΗΣ' },
-            // { id: 'loansEnding', title: 'ΗΜ/ΝΙΑ ΛΗΞΗΣ ΥΠΟΧΡΕΩΣΗΣ' },
         ]
     });
 
@@ -638,7 +694,6 @@ const extract = (cmd) => {
                         elected.spouse_name = strings[strings.findIndex(m => m === 'ΟΝΟΜΑ') + 1];
                         elected.spouse_surname = strings[strings.findIndex(m => m === 'ΕΠΩΝΥΜΟ') + 1];
                         elected.spouse_fathersname = strings[strings.findIndex(m => m.includes('ΠΑΤΡΟΣ')) + 1];
-    
                         return elected;
                     });
                 });
@@ -684,9 +739,12 @@ const extract = (cmd) => {
 
                         let amount = accounting.unformat(data.pageTables[i].tables[j][idx].trim(), ',') * currencyMultiplier;
 
-                        if (currencyIndex === -1 && currencyName !== 'ΕΥΡΩ' && currencyName !== '') signale.debug('Missing Currency "' +currencyName + '"');
+                        if (currencyIndex === -1 && currencyName !== 'ΕΥΡΩ' && currencyName !== '') {
+                            signale.debug('Missing Currency "' +currencyName + '"');
+                            process.exit(0);
+                        }
                         if (currencyName !== 'ΕΥΡΩ' && currencyName !== '') {
-                            signale.debug(`INCOME/SAVINGS Convert ${CURRENCIES[currencyIndex].symbol} to EUR => ${accounting.unformat(data.pageTables[i].tables[j][idx].trim(), ',')} => ${amount}`);
+                            signale.info(`INCOME/SAVINGS Convert ${CURRENCIES[currencyIndex].symbol} to EUR => ${accounting.unformat(data.pageTables[i].tables[j][idx].trim(), ',')} => ${amount}`);
                         }
 
                         if (A === 0) {
@@ -698,6 +756,19 @@ const extract = (cmd) => {
                     }
                     A++;
                 }
+
+                
+
+                // ιδιότητα
+                // for (var l = 0; l < data.pageTables.length; l++) {
+                //     let header = data.pageTables[l].tables[0];
+                //     let idxl = _.indexOf(header, 'ΗΜ. \nΑΠΩΛΕΙΑΣ \nΙΔΙΟΤΗΤΑΣ');
+                //     if (idxl < 0) continue;
+                    
+                //     elected.property = data.pageTables[l].tables[1][0].replace(/(\r\n|\n|\r|\\)/gm, '').replace(/\s\s+/g, ' ').trim();
+                //     elected.propertyFrom = data.pageTables[l].tables[1][1].trim();
+                //     elected.propertyTo = data.pageTables[l].tables[1][2].trim();
+                // }
 
                 // δάνεια
                 let lastPage = data.pageTables[data.pageTables.length - 1].tables;
@@ -711,10 +782,13 @@ const extract = (cmd) => {
                         let currencyIndex = _.findIndex(CURRENCIES, m => new RegExp(m.name).test(currencyName));
                         let currencyMultiplier = currencyIndex < 0 ? 1 : _.find(CURRENCIES[currencyIndex].close, ['year', parseInt(cmd.year) - 1]).mult;
 
-                        if (currencyIndex === -1 && currencyName !== 'ΕΥΡΩ' && currencyName !== '') signale.debug('Missing Currency "' +currencyName + '"');
+                        if (currencyIndex === -1 && currencyName !== 'ΕΥΡΩ' && currencyName !== '') {
+                            signale.debug('Missing Currency "' +currencyName + '"');
+                            process.exit(0);
+                        }
                         if (currencyName !== 'ΕΥΡΩ' && currencyName !== '') {
-                            signale.debug(`LOANS/TOTAL Convert ${CURRENCIES[currencyIndex].symbol} to EUR => ${accounting.unformat(m[3].trim(), ',')} => ${accounting.unformat(m[3].trim(), ',') * currencyMultiplier}`);
-                            signale.debug(`LOANS/DUE Convert ${CURRENCIES[currencyIndex].symbol} to EUR => ${accounting.unformat(m[5].trim(), ',')} => ${accounting.unformat(m[5].trim(), ',') * currencyMultiplier}`);
+                            signale.info(`LOANS/TOTAL Convert ${CURRENCIES[currencyIndex].symbol} to EUR => ${accounting.unformat(m[3].trim(), ',')} => ${accounting.unformat(m[3].trim(), ',') * currencyMultiplier}`);
+                            signale.info(`LOANS/DUE Convert ${CURRENCIES[currencyIndex].symbol} to EUR => ${accounting.unformat(m[5].trim(), ',')} => ${accounting.unformat(m[5].trim(), ',') * currencyMultiplier}`);
                         }
 
                         total += accounting.unformat(m[3].trim(), ',') * currencyMultiplier;
@@ -728,6 +802,7 @@ const extract = (cmd) => {
                         }
                     }
                 });
+               
                 // ακίνητα
                 let PRP = 0;
                 let TM = 0;
@@ -758,9 +833,12 @@ const extract = (cmd) => {
                         let currencyIndex = _.findIndex(CURRENCIES, m => new RegExp(m.name).test(currencyName));
                         let currencyMultiplier = currencyIndex < 0 ? 1 : _.find(CURRENCIES[currencyIndex].close, ['year', parseInt(cmd.year) - 1]).mult;
 
-                        if (currencyIndex === -1 && currencyName !== 'ΕΥΡΩ' && currencyName !== '') signale.debug('Missing Currency "' +currencyName + '"');
+                        if (currencyIndex === -1 && currencyName !== 'ΕΥΡΩ' && currencyName !== '') {
+                            signale.debug('Missing Currency "' +currencyName + '"');
+                            process.exit(0);
+                        }
                         if (currencyName !== 'ΕΥΡΩ' && currencyName !== '') {
-                            signale.debug(`STOCKS Convert ${CURRENCIES[currencyIndex].symbol} to EUR => ${accounting.unformat(data.pageTables[e].tables[r][idxe].trim(), ',')} => ${accounting.unformat(data.pageTables[e].tables[r][idxe].trim(), ',') * currencyMultiplier}`);
+                            signale.info(`STOCKS Convert ${CURRENCIES[currencyIndex].symbol} to EUR => ${accounting.unformat(data.pageTables[e].tables[r][idxe].trim(), ',')} => ${accounting.unformat(data.pageTables[e].tables[r][idxe].trim(), ',') * currencyMultiplier}`);
                         }
 
                         mtxCost += accounting.unformat(data.pageTables[e].tables[r][idxe].trim(), ',') * currencyMultiplier;
@@ -787,7 +865,7 @@ const extract = (cmd) => {
                     sharesAmount: accounting.formatMoney(mtxCost, { symbol: '€',  format: '%v %s' }, 2),
                     sharesCount: accounting.formatNumber(mtxCount, 2),
 
-                    link: columns[2]
+                    link: columns[2],
 
                     // loansCreated: from.join(','),
                     // loansEnding: to.join(','),
@@ -835,7 +913,7 @@ const extract = (cmd) => {
 };
 
 program
-    .version('1.1.0')
+    .version('1.2.0')
     .description('Pothen Esxes CLI');
 
 program
@@ -843,6 +921,7 @@ program
     .option('-y, --year [value]', 'Current Year')
     .option('-f, --folder [value]', 'Output Folder', './pothenesxes')
     .option('-c, --cookie [value]', 'Cookie', '')
+    .option('-p, --proxy [value]', 'Proxy URL', '')
     .description('Fetch public URL and write table to CSV')
     .action(fetch);
 
@@ -851,6 +930,7 @@ program
     .option('-y, --year [value]', 'Current Year')
     .option('-f, --folder [value]', 'Output Folder', './pothenesxes')
     .option('-c, --cookie [value]', 'Cookie', '')
+    .option('-p, --proxy [value]', 'Proxy URL', '')
     .description('Download Pothen Esxes files')
     .action(download);
 

@@ -16,7 +16,7 @@
     "csv-writer": "^1.2.0",
     "line-by-line": "^0.1.6",
     "lodash": "^4.17.21",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^3.1.1",
     "pdf-table-extractor": "^1.0.3",
     "pdfjs-dist": "^2.3.200",
     "signale": "^1.4.0"
